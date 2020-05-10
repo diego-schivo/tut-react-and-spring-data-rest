@@ -65,7 +65,7 @@ class App extends React.Component {
 			);
 		}).then(employeePromises => {
 			return when.all(employeePromises);
-		}).done(employees => {
+		}).then(employees => {
 			this.setState({
 				page: this.page,
 				employees: employees,
@@ -78,7 +78,7 @@ class App extends React.Component {
 
 	// tag::on-create[]
 	onCreate(newEmployee) {
-		follow(client, root, ['employees']).done(response => {
+		follow(client, root, ['employees']).then(response => {
 			client({
 				method: 'POST',
 				path: response.entity._links.self.href,
@@ -101,7 +101,7 @@ class App extends React.Component {
 					'Content-Type': 'application/json',
 					'If-Match': employee.headers.Etag
 				}
-			}).done(response => {
+			}).then(response => {
 				/* Let the websocket handler update the state */
 			}, response => {
 				if (response.status.code === 403) {
@@ -122,7 +122,7 @@ class App extends React.Component {
 	// tag::on-delete[]
 	onDelete(employee) {
 		client({method: 'DELETE', path: employee.entity._links.self.href}
-		).done(response => {/* let the websocket handle updating the UI */},
+		).then(response => {/* let the websocket handle updating the UI */},
 		response => {
 			if (response.status.code === 403) {
 				alert('ACCESS DENIED: You are not authorized to delete ' +
@@ -148,7 +148,7 @@ class App extends React.Component {
 			);
 		}).then(employeePromises => {
 			return when.all(employeePromises);
-		}).done(employees => {
+		}).then(employees => {
 			this.setState({
 				page: this.page,
 				employees: employees,
@@ -170,7 +170,7 @@ class App extends React.Component {
 		follow(client, root, [{
 			rel: 'employees',
 			params: {size: this.state.pageSize}
-		}]).done(response => {
+		}]).then(response => {
 			if (response.entity._links.last !== undefined) {
 				this.onNavigate(response.entity._links.last.href);
 			} else {

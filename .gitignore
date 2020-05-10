@@ -9,7 +9,6 @@ asciidoctor.css
 README.html
 built
 dump.rdb
-package-lock.json
 .classpath
 .project
 org.eclipse.*
